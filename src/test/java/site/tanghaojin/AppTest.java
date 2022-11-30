@@ -1,5 +1,7 @@
 package site.tanghaojin;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
 import site.tanghaojin.combTree.CombiningTree;
@@ -7,7 +9,7 @@ import site.tanghaojin.combTree.CombiningTree;
 public class AppTest {
   int THREAD_NUM = 10;
   int TASK_PER_THREAD = 100000;
-  
+
   @Test
   public void test() throws InterruptedException {
     CombiningTree tree = new CombiningTree(THREAD_NUM);
@@ -24,7 +26,6 @@ public class AppTest {
       threads[i] = new Thread(threadFunc, String.valueOf(i));
     }
 
-    long start = System.currentTimeMillis();
     for (Thread thread : threads) {
       thread.start();
     }
@@ -33,11 +34,6 @@ public class AppTest {
       thread.join();
     }
 
-    long end = System.currentTimeMillis();
-    long time = end - start;
-    System.out.println("counter: " + (tree.get()));
-    System.out.println("time: " + (time) + " ms");
-
-    assert(tree.get() == THREAD_NUM * TASK_PER_THREAD);
+    assertTrue(tree.get() == THREAD_NUM * TASK_PER_THREAD);
   }
 }
